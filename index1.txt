@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0;url=DOCTYPE.html">
+    <title>إعادة توجيه</title>
+</head>
+<body>
+    <p>يتم توجيهك إلى صفحة DOCTYPE.html...</p>
+</body>
+</html>
+
+
+https://youcefcfpa10-cell.github.io/projet-python/DOCTYPE.html
