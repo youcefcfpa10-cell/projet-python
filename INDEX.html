@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>واجهة الترحيب</title>
+<link rel="icon" href="images/ITP1.ico">
+<style>
+body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#D35400;
+    color:white;
+}
+.container{
+    width:600px;
+    margin:30px auto;
+    text-align:center;
+}
+.box{
+    border:4px solid #fff;
+    border-radius:8px;
+    padding:10px;
+    margin:10px 0;
+}
+.big{
+    font-size:26px;
+    font-weight:bold;
+}
+.btn{
+    width:160px;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    box-shadow:0 6px 0 rgba(0,0,0,0.3);
+    transition:all 0.3s ease;
+}
+.btn:active{
+    box-shadow:0 2px 0 rgba(0,0,0,0.3);
+    transform:translateY(4px);
+}
+.btn-next{
+    background:linear-gradient(#2ecc71,#27ae60);
+    color:white;
+}
+.btn-next:hover{
+    background:linear-gradient(#58d68d,#2ecc71);
+}
+.btn-pass{
+    background:linear-gradient(#3498db,#21618c);
+    color:white;
+}
+.btn-pass:hover{
+    background:linear-gradient(#5dade2,#3498db);
+}
+.buttons{
+    display:flex;
+    justify-content:space-between;
+    margin-top:20px;
+    opacity:1;
+    transition:opacity 0.5s ease;
+}
+.social{
+    display:flex;
+    justify-content:space-between;
+    margin-top:30px;
+}
+.social-box{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border:2px solid white;
+    border-radius:12px;
+    padding:10px 15px;
+    width:250px;
+    background:rgba(255,255,255,0.1);
+    transition:0.3s;
+}
+.social-box:hover{
+    background:rgba(255,255,255,0.25);
+    transform:scale(1.03);
+}
+.social-box img{
+    width:28px;
+}
+.social-box a{
+    color:white;
+    text-decoration:none;
+    font-size:14px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="box">تم تسجيل الدخول بنجاح ✅</div>
+    <div class="box big">بسم الله الرحمن الرحيم</div>
+    <div class="box big">اللهم صل وسلم على سيدنا محمد</div>
+    <div class="box">مرحبا بكم لا تنسوننا بخالص الدعاء</div>
+    <div class="box">روابط التواصل معنا في الأسفل</div>
+
+    <div class="buttons" id="buttons">
+        <button class="btn btn-next" onclick="goNext()">المتابعة</button>
+        <button class="btn btn-pass" onclick="changePassword()">تغيير كلمة المرور</button>
+    </div>
+
+    <div class="social">
+        <div class="social-box">
+            <img src="images/whatsap.JPEG" alt="WhatsApp">
+            <a href="https://wa.link/4y9xf4" target="_blank">WhatsApp : https://wa.link/4y9xf4</a>
+        </div>
+        <div class="social-box">
+            <img src="images/facebook.png" alt="Facebook">
+            <a href="https://tinyurl.com/2687f245" target="_blank">Facebook : https://tinyurl.com/2687f245</a>
+        </div>
+    </div>
+</div>
+
+<script>
+function goNext() {
+    const buttonsDiv = document.getElementById('buttons');
+    buttonsDiv.style.opacity = 0;
+    setTimeout(() => {
+        window.location.href = "INDEX2.html"; // رابط الانتقال
+    }, 500);
+}
+
+function changePassword() {
+    window.location.href = "INDEX2.html";
+}
+</script>
+
+</body>
+</html>
