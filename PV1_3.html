@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>الإختبار الثاني - المحادثة</title>
+<link rel="icon" href="images/ITP1.ICO">
+<style>
+  body {
+    background-color: #D35400;
+    font-family: Arial, sans-serif;
+    color: white;
+    margin: 0;
+    padding: 0;
+  }
+  h1 {
+    text-align: center;
+    font-size: 28px;
+    margin-top: 20px;
+    font-style: italic;
+  }
+  .container {
+    width: 95%;
+    margin: auto;
+    padding: 10px;
+  }
+  label {
+    display: inline-block;
+    width: 200px;
+    text-align: right;
+    font-weight: bold;
+  }
+  input[type="text"] {
+    width: 400px;
+    padding: 5px;
+    margin-bottom: 10px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  th, td {
+    border: 1px solid white;
+    padding: 8px;
+    text-align: center;
+  }
+  th {
+    background-color: #B03A2E;
+  }
+  td.element {
+    text-align: right;
+    background-color: #D35400;
+    font-weight: bold;
+  }
+  td.base {
+    background-color: white;
+    color: black;
+  }
+  td.input-cell input {
+    width: 80px;
+    text-align: center;
+  }
+  td.total {
+    background-color: #FFFACD;
+    color: black;
+    font-weight: bold;
+  }
+  .buttons {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  button {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+  }
+  .save { background-color: #28a745; color: white; }
+  .notes { background-color: #1E90FF; color: white; }
+  .exit { background-color: #FF0000; color: white; }
+</style>
+</head>
+<body>
+
+<h1>المحادثة</h1>
+<div class="container">
+  <div>
+    <label for="lessonTitle">الموضوع المعالج:</label>
+    <input type="text" id="lessonTitle">
+  </div>
+
+  <table id="marksTable">
+    <thead>
+      <tr>
+        <th>العلامة المتحصل عليها</th>
+        <th>العلامة القاعدية</th>
+        <th>عناصر التنقيط</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+
+  <div class="buttons">
+    <button class="notes" onclick="openNotes()">📝 التقديرات العامة</button>
+    <button class="save" onclick="saveMarks()">💾 حفظ العلامات</button>
+    <button class="exit" onclick="returnToMain()">⬅️ العودة إلى القائمة الرئيسية</button>
+  </div>
+</div>
+
+<script>
+  const elements = [
+    "التحكم في الموضوع",
+    "قيمة وبناء الأفكار",
+    "القدرة على التحليل وجمع النتائج",
+    "التعبير – الاتصال",
+    "ملاءمة ودقة الملاحظات",
+    "التفتح الذهني",
+    "وضع الأدوات و إحترام الإجراءات",
+    "المجموع"
+  ];
+  const baseMarks = [3, 3, 3, 3, 3, 3, 2, 20];
+
+  const tbody = document.querySelector("#marksTable tbody");
+  const inputs = [];
+  let notesText = "";
+
+  elements.forEach((el, i) => {
+    const row = document.createElement("tr");
+
+    // علامة المتحصل عليها
+    const tdInput = document.createElement("td");
+    tdInput.classList.add("input-cell");
+    if (i < elements.length - 1) {
+      const input = document.createElement("input");
+      input.type = "text";
+      input.addEventListener("input", updateTotal);
+      tdInput.appendChild(input);
+      inputs.push(input);
+    } else {
+      tdInput.classList.add("total");
+      tdInput.textContent = "0.00";
+    }
+
+    // العلامة القاعدية
+    const tdBase = document.createElement("td");
+    tdBase.classList.add("base");
+    tdBase.textContent = baseMarks[i].toFixed(2);
+
+    // العنصر
+    const tdEl = document.createElement("td");
+    tdEl.classList.add("element");
+    tdEl.textContent = el;
+
+    row.appendChild(tdInput);
+    row.appendChild(tdBase);
+    row.appendChild(tdEl);
+    tbody.appendChild(row);
+  });
+
+  function updateTotal() {
+    let total = 0;
+    inputs.forEach((input, i) => {
+      let val = parseFloat(input.value.replace(",", "."));
+      if (isNaN(val)) {
+        input.style.backgroundColor = "#FFB6C1";
+        val = 0;
+      } else if (val < 0) {
+        input.style.backgroundColor = "#FFB6C1";
+        val = 0;
+      } else if (val > baseMarks[i]) {
+        input.style.backgroundColor = "#FFCCCB";
+        val = baseMarks[i];
+      } else {
+        input.style.backgroundColor = "white";
+      }
+      total += val;
+    });
+    const totalCell = tbody.rows[tbody.rows.length - 1].cells[0];
+    totalCell.textContent = total.toFixed(2);
+    if (total < 10) totalCell.style.backgroundColor = "#FF6347";
+    else if (total < 16) totalCell.style.backgroundColor = "#FFD700";
+    else totalCell.style.backgroundColor = "#32CD32";
+  }
+
+  function openNotes() {
+    const note = prompt("أدخل التقديرات العامة:", notesText);
+    if (note !== null) {
+      notesText = note;
+      alert("تم حفظ الملاحظات بنجاح ✅");
+    }
+  }
+
+  function saveMarks() {
+    const marks = inputs.map(input => input.value || "0");
+    const lessonTitle = document.getElementById("lessonTitle").value;
+    const total = tbody.rows[tbody.rows.length - 1].cells[0].textContent;
+    const data = {
+      lesson_title1: lessonTitle,
+      marks: marks,
+      total1: total,
+      notes1: notesText
+    };
+    // حفظ البيانات في localStorage كبديل للـ JSON في المتصفح
+    localStorage.setItem("PV1_3", JSON.stringify(data));
+    alert("تم حفظ البيانات ✅");
+  }
+
+  function returnToMain() {
+    if (confirm("هل تريد العودة إلى القائمة الرئيسية؟")) {
+      window.location.href = "index.html"; // استبدل برابط القائمة الرئيسية
+    }
+  }
+
+  // تحميل البيانات السابقة إذا وجدت
+  const savedData = JSON.parse(localStorage.getItem("PV1_3") || "{}");
+  if (savedData.lesson_title1) {
+    document.getElementById("lessonTitle").value = savedData.lesson_title1;
+    savedData.marks?.forEach((val, i) => {
+      if (inputs[i]) inputs[i].value = val;
+    });
+    notesText = savedData.notes1 || "";
+    updateTotal();
+  }
+
+</script>
+</body>
+</html>
