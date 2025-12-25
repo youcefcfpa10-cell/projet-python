@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بيانات الأستاذ</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Cairo', sans-serif;
+    background: #D35400;
+    text-align: center;
+}
+
+/* الشريط العلوي */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #1E1E2F;
+    padding: 10px 0;
+    position: relative;
+}
+
+.header img {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    left: 20px;
+}
+
+.header h1 {
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+}
+
+/* محتوى النموذج */
+.container {
+    max-width: 850px;
+    margin: 30px auto;
+    background: #D35400;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* العنوان */
+.container h2 {
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* الحقول */
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.form-row label {
+    width: 35%;
+    text-align: right;
+    color: black;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.form-row input {
+    width: 60%;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+}
+
+/* الأزرار */
+.btn {
+    padding: 12px 25px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 10px 10px;
+    color: white;
+}
+
+.save-btn { background-color: #28a745; }
+.exit-btn { background-color: #FF0000; }
+
+/* تأثير عند المرور على الزر */
+.btn:hover {
+    filter: brightness(1.1);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .form-row {
+        flex-direction: column-reverse;
+        align-items: flex-start;
+    }
+    .form-row label, .form-row input {
+        width: 100%;
+        margin: 5px 0;
+    }
+}
+</style>
+
+<script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+<script>
+new QWebChannel(qt.webChannelTransport, function(channel) {
+    window.bridge = channel.objects.bridge;
+});
+
+// التحقق من الحروف اللاتينية فقط
+function latinOnly(str) {
+    return /^[A-Za-z\s]*$/.test(str);
+}
+
+function saveTeacher() {
+    let fields = document.querySelectorAll(".form-row input");
+    let values = Array.from(fields).map(f => f.value.trim());
+
+    // تحقق من أن الحقل الثالث لاتيني فقط
+    if (!latinOnly(values[2])) {
+        alert("⚠️ الحقل الثالث يجب أن يحتوي على أحرف إنجليزية فقط.");
+        return;
+    }
+
+    if (values.includes("")) {
+        alert("⚠️ الرجاء ملء جميع الحقول قبل الحفظ.");
+        return;
+    }
+
+    let teacher_data = {
+        last_name: values[0],
+        first_name: values[1],
+        latin_first_name: values[2],
+        birth_date: values[3],
+        birth_place: values[4],
+        birth_state: values[5],
+        install_date: values[6],
+        assignment_institution: values[7],
+        exam_institution: values[8],
+        specialty_code: values[9],
+        taught_specialty: values[10],
+        start_training: values[11],
+        end_training: values[12],
+        weekly_hours: values[13]
+    };
+
+    bridge.save_teacher(JSON.stringify(teacher_data));
+    alert("تم حفظ بيانات الأستاذ بنجاح ✅");
+}
+
+function goBack() {
+    bridge.open_PFP();
+}
+</script>
+</head>
+<body>
+
+<!-- الشريط العلوي -->
+<div class="header">
+    <img src="images/ITP1.ICO" alt="Logo">
+    <h1>بيانات الأستاذ</h1>
+</div>
+
+<!-- النموذج -->
+<div class="container">
+    <h2>بيانات خاصة بالأستاذ المعني بإمتحان التثبيت</h2>
+
+    <div class="form-row"><label>لقب الممتحن</label><input type="text" /></div>
+    <div class="form-row"><label>إسم الممتحن</label><input type="text" /></div>
+    <div class="form-row"><label>الإسم و اللقب باللغة اللاتينية</label><input type="text" /></div>
+    <div class="form-row"><label>تاريخ إزدياد الممتحن</label><input type="text" /></div>
+    <div class="form-row"><label>مكان الإزدياد</label><input type="text" /></div>
+    <div class="form-row"><label>ولاية الإزدياد</label><input type="text" /></div>
+    <div class="form-row"><label>تاريخ تنصيب الممتحن</label><input type="text" /></div>
+    <div class="form-row"><label>مؤسسة التعيين</label><input type="text" /></div>
+    <div class="form-row"><label>مؤسسة الإمتحان</label><input type="text" /></div>
+    <div class="form-row"><label>رمز الشعبة المهنية للتخصص القاعدي</label><input type="text" /></div>
+    <div class="form-row"><label>التخصص المدرس</label><input type="text" /></div>
+    <div class="form-row"><label>بداية التربص البيداغوجي</label><input type="text" /></div>
+    <div class="form-row"><label>نهاية التربص البيداغوجي</label><input type="text" /></div>
+    <div class="form-row"><label>الحجم الساعي الأسبوعي</label><input type="text" /></div>
+
+    <button class="btn save-btn" onclick="saveTeacher()">💾 حفظ البيانات</button>
+    <button class="btn exit-btn" onclick="goBack()">⬅️ العودة إلى PFP</button>
+</div>
+
+</body>
+</html>

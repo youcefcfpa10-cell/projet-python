@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>محاضر التثبيت PFP</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Cairo', sans-serif;
+    background: #D35400;
+    text-align: center;
+}
+
+/* الشريط العلوي */
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #1E1E2F;
+    padding: 10px 0;
+    position: relative;
+}
+
+.header img {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    left: 20px;
+}
+
+.header h1 {
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+}
+
+/* المحتوى */
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    padding: 50px 20px;
+}
+
+/* العمود الأيسر والأيمن */
+.side-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center; /* توسيط عمودي */
+}
+
+/* الصورة المركزية */
+.center-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.center-image img {
+    width: 550px;
+    max-width: 90%;
+    border-radius: 16px;
+    box-shadow: 0 10px 22px rgba(0,0,0,0.35);
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.center-image img:hover {
+    transform: scale(1.03);
+    box-shadow: 0 14px 28px rgba(0,0,0,0.45);
+}
+
+/* أزرار أسفل الصورة */
+.bottom-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* الأزرار */
+.btn {
+    width: 180px;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
+.b1 { background: #1E90FF; }      
+.b2 { background: #28a745; }      
+.b3 { background: #8A2BE2; }      
+.b4 { background: #FFD700; color:#000; } 
+.b_exit { background: #FF0000; }  
+
+/* Responsive */
+@media (max-width: 1000px) {
+    .content {
+        flex-direction: column;
+        align-items: center;
+    }
+    .side-buttons {
+        flex-direction: row;
+        justify-content: center;
+        gap: 15px;
+    }
+}
+</style>
+
+<script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+<script>
+new QWebChannel(qt.webChannelTransport, function(channel) {
+    window.bridge = channel.objects.bridge;
+});
+
+// دوال استدعاء Python
+function openPV1() { bridge.open_PV1(); }
+function openPV1_1() { bridge.open_PV1_1(); }
+function openPV1_2() { bridge.open_PV1_2(); }
+function openPV1_3() { bridge.open_PV1_3(); }
+function openPV1_4() { bridge.open_PV1_4(); }
+function goBack() { bridge.go_back(); }
+</script>
+</head>
+<body>
+
+<!-- الشريط العلوي -->
+<div class="header">
+    <img src="images/ITP1.ICO" alt="Logo">
+    <h1>محاضر التثبيت PFP</h1>
+</div>
+
+<!-- المحتوى الرئيسي -->
+<div class="content">
+
+    <!-- العمود الأيسر -->
+    <div class="side-buttons">
+        <button class="btn b1" onclick="openPV1()">بيانات الأستاذ</button>
+        <button class="btn b2" onclick="openPV1_1()">بيانات المفتش</button>
+    </div>
+
+    <!-- الصورة المركزية -->
+    <div class="center-image">
+        <img src="images/Confirmation.jpeg" alt="صورة">
+        <div class="bottom-buttons">
+            <button class="btn b2" onclick="openPV1_4()">أعضاء اللجنة</button>
+            <button class="btn b_exit" onclick="goBack()">القائمة الرئيسية</button>
+        </div>
+    </div>
+
+    <!-- العمود الأيمن -->
+    <div class="side-buttons">
+        <button class="btn b4" onclick="openPV1_2()">الإختبار الأول إلقاء الدرس</button>
+        <button class="btn b3" onclick="openPV1_3()">الإختبار الثاني المحادثة</button>
+    </div>
+
+</div>
+</body>
+</html>

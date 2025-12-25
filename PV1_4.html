@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>أعضاء اللجنة - النتائج النهائية</title>
+<style>
+    body { font-family: Arial, sans-serif; background:#D35400; color:white; text-align: center; margin:0; padding:0; }
+    .container { width: 95%; margin: 20px auto; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; background:white; color:black; }
+    th, td { border: 1px solid #555; padding: 8px; text-align: center; }
+    th { background: #A64B00; color: white; }
+    input[type=text] { width: 90%; padding: 5px; text-align: center; }
+    .results { display:flex; justify-content: space-around; margin-top: 20px; flex-wrap: wrap; }
+    .result-box { background:#A64B00; padding: 10px; margin:5px; border-radius:5px; width: 140px; }
+    .result-box input { width: 100%; text-align: center; font-weight: bold; }
+    button { padding: 10px 20px; margin:10px; font-size: 14px; cursor:pointer; border:none; border-radius:5px; }
+    .save-btn { background:#4CAF50; color:white; }
+    .fill-btn { background:#1E90FF; color:white; }
+    .back-btn { background:#FF5733; color:white; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>أعضاء اللجنة - النتائج النهائية</h1>
+
+<div class="results">
+    <div class="result-box">
+        <label>إلقاء الدرس</label>
+        <input type="number" id="total" step="0.01">
+    </div>
+    <div class="result-box">
+        <label>المحادثة</label>
+        <input type="number" id="total1" step="0.01">
+    </div>
+    <div class="result-box">
+        <label>المجموع</label>
+        <input type="text" id="td" readonly>
+    </div>
+    <div class="result-box">
+        <label>المعدل</label>
+        <input type="text" id="moyenne" readonly>
+    </div>
+    <div class="result-box">
+        <label>القرار</label>
+        <input type="text" id="decision" readonly>
+    </div>
+    <div class="result-box">
+        <label>التاريخ</label>
+        <input type="text" id="date" readonly>
+    </div>
+</div>
+
+<table id="committeeTable">
+    <thead>
+        <tr>
+            <th>الوظيفة</th>
+            <th>الاسم</th>
+            <th>اللقب</th>
+            <th>العضو</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td><input type="text" placeholder="مفتش المقاطعة"></td><td><input type="text"></td><td><input type="text"></td><td>مفتش المقاطعة</td></tr>
+        <tr><td><input type="text" placeholder="مدير المؤسسة"></td><td><input type="text"></td><td><input type="text"></td><td>مدير المؤسسة</td></tr>
+        <tr><td><input type="text" placeholder="العضو الأول"></td><td><input type="text"></td><td><input type="text"></td><td>العضو الأول</td></tr>
+        <tr><td><input type="text" placeholder="العضو الثاني"></td><td><input type="text"></td><td><input type="text"></td><td>العضو الثاني</td></tr>
+    </tbody>
+</table>
+
+<div>
+    <button class="save-btn" onclick="saveData()">💾 حفظ البيانات</button>
+    <button class="fill-btn" onclick="fillTemplate()">🧾 تعبئة المحضر</button>
+    <button class="back-btn" onclick="returnToMain()">⬅️ العودة إلى القائمة الرئيسية</button>
+</div>
+
+<script>
+function calculate() {
+    const total = parseFloat(document.getElementById('total').value) || 0;
+    const total1 = parseFloat(document.getElementById('total1').value) || 0;
+    const td = total + total1;
+    const moyenne = (td / 3).toFixed(2);
+    const decision = moyenne >= 10 ? 'ناجح' : 'راسب';
+    document.getElementById('td').value = td.toFixed(2);
+    document.getElementById('moyenne').value = moyenne;
+    document.getElementById('decision').value = decision;
+    document.getElementById('date').value = new Date().toISOString().split('T')[0];
+}
+
+document.getElementById('total').addEventListener('input', calculate);
+document.getElementById('total1').addEventListener('input', calculate);
+
+function saveData() {
+    const table = document.getElementById('committeeTable');
+    const members = [];
+    for(let i=0; i<4; i++){
+        const row = table.rows[i+1];
+        members.push({
+            job: row.cells[0].querySelector('input').value,
+            fname: row.cells[1].querySelector('input').value,
+            lname: row.cells[2].querySelector('input').value,
+            member: row.cells[3].innerText
+        });
+    }
+    const data = {
+        total: parseFloat(document.getElementById('total').value) || 0,
+        total1: parseFloat(document.getElementById('total1').value) || 0,
+        td: parseFloat(document.getElementById('td').value) || 0,
+        moyenne: parseFloat(document.getElementById('moyenne').value) || 0,
+        decision: document.getElementById('decision').value,
+        date: document.getElementById('date').value,
+        members: members
+    };
+    localStorage.setItem('PV1_4', JSON.stringify(data));
+    alert('تم حفظ البيانات بنجاح ✅');
+}
+
+function fillTemplate() {
+    const data = JSON.parse(localStorage.getItem('PV1_4') || '{}');
+    if(Object.keys(data).length === 0) { alert('لا توجد بيانات للحفظ'); return; }
+    let content = `محضر النتائج:\nالمجموع: ${data.td}\nالمعدل: ${data.moyenne}\nالقرار: ${data.decision}\nالتاريخ: ${data.date}\n`;
+    data.members.forEach(m => {
+        content += `\n${m.member}: ${m.fname} ${m.lname} (${m.job})`;
+    });
+    alert(content);
+}
+
+function returnToMain() {
+    alert('الرجوع إلى القائمة الرئيسية');
+    // هنا يمكن ربط الانتقال لصفحة رئيسية أخرى
+}
+
+window.onload = calculate;
+</script>
+</div>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بيانات المفتش</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Cairo', sans-serif;
+    background: #D35400;
+    text-align: center;
+}
+
+/* الشريط العلوي */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #1E1E2F;
+    padding: 10px 0;
+    position: relative;
+}
+
+.header img {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    left: 20px;
+}
+
+.header h1 {
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+}
+
+/* محتوى النموذج */
+.container {
+    max-width: 850px;
+    margin: 30px auto;
+    background: #D35400;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* العنوان */
+.container h2 {
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* الحقول */
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.form-row label {
+    width: 35%;
+    text-align: right;
+    color: black;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.form-row input {
+    width: 60%;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+}
+
+/* الأزرار */
+.btn {
+    padding: 12px 25px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 10px 10px;
+    color: white;
+}
+
+.save-btn { background-color: #28a745; }
+.exit-btn { background-color: #FF0000; }
+
+/* تأثير عند المرور على الزر */
+.btn:hover {
+    filter: brightness(1.1);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .form-row {
+        flex-direction: column-reverse;
+        align-items: flex-start;
+    }
+    .form-row label, .form-row input {
+        width: 100%;
+        margin: 5px 0;
+    }
+}
+</style>
+
+<script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+<script>
+new QWebChannel(qt.webChannelTransport, function(channel) {
+    window.bridge = channel.objects.bridge;
+});
+
+function saveInspector() {
+    let fields = document.querySelectorAll(".form-row input");
+    let values = Array.from(fields).map(f => f.value.trim());
+    
+    if (values.includes("")) {
+        alert("⚠️ الرجاء ملء جميع الحقول قبل الحفظ.");
+        return;
+    }
+
+    let inspector_data = {
+        inspector_name: values[0],
+        specialty_code: values[1],
+        district: values[2],
+        district_state: values[3],
+        office: values[4],
+        phone: values[5],
+        email: values[6]
+    };
+
+    // استدعاء دالة البايثون عبر Bridge
+    bridge.save_inspector(JSON.stringify(inspector_data));
+    alert("تم حفظ بيانات المفتش بنجاح ✅");
+}
+
+function goBack() {
+    bridge.open_PFP();
+}
+</script>
+</head>
+<body>
+
+<!-- الشريط العلوي -->
+<div class="header">
+    <img src="images/ITP1.ICO" alt="Logo">
+    <h1>بيانات المفتش</h1>
+</div>
+
+<!-- النموذج -->
+<div class="container">
+    <h2>بيانات خاصة بالمفتش</h2>
+
+    <div class="form-row">
+        <label>إسم ولقب مفتش المقاطعة</label>
+        <input type="text" />
+    </div>
+    <div class="form-row">
+        <label>إسم ورمز شعبة تخصص المفتش</label>
+        <input type="text" />
+    </div>
+    <div class="form-row">
+        <label>إسم ورقم المقاطعة</label>
+        <input type="text" />
+    </div>
+    <div class="form-row">
+        <label>ولاية المقاطعة</label>
+        <input type="text" />
+    </div>
+    <div class="form-row">
+        <label>المقر الإداري الخاص بالمفتش</label>
+        <input type="text" />
+    </div>
+    <div class="form-row">
+        <label>رقم الهاتف الخاص بالمفتش</label>
+        <input type="text" />
+    </div>
+    <div class="form-row">
+        <label>الإيميل الخاص بالمفتش</label>
+        <input type="text" />
+    </div>
+
+    <!-- الأزرار -->
+    <button class="btn save-btn" onclick="saveInspector()">💾 حفظ</button>
+    <button class="btn exit-btn" onclick="goBack()">⬅️ العودة إلى PFP</button>
+</div>
+
+</body>
+</html>

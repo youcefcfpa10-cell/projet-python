@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>واجهة الخروج</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#D35400;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+}
+.container {
+    width:600px;
+    text-align:center;
+}
+.box {
+    border:4px solid #fff;
+    border-radius:8px;
+    padding:10px;
+    margin:10px 0;
+}
+.big {
+    font-size:22px;
+    font-weight:bold;
+}
+.btn {
+    width:140px;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    box-shadow:0 6px 0 rgba(0,0,0,0.3);
+    transition:all 0.2s ease;
+    margin:10px;
+}
+.btn:active {
+    box-shadow:0 2px 0 rgba(0,0,0,0.3);
+    transform:translateY(4px);
+}
+.btn-exit {
+    background:linear-gradient(#e74c3c,#c0392b);
+    color:white;
+}
+.btn-exit:hover {
+    background:linear-gradient(#ec7063,#e74c3c);
+}
+.btn-back {
+    background:linear-gradient(#3498db,#21618c);
+    color:white;
+}
+.btn-back:hover {
+    background:linear-gradient(#5dade2,#3498db);
+}
+.fade {
+    transition: opacity 0.5s ease;
+}
+</style>
+</head>
+<body>
+
+<div class="container fade" id="exitContainer">
+    <div class="box big">هل تريد الخروج من البرنامج ❓</div>
+    <div class="box">سيتم حفظ جميع البيانات</div>
+    <div class="box">تحياتي لكم و بالتوفيق</div>
+    <div class="box">أخوكم المفتش سماحي يوسف</div>
+
+    <div>
+        <button class="btn btn-exit" onclick="saveAndExit()">💾 إغلاق</button>
+        <button class="btn btn-back" onclick="goBack()">⬅️ تراجع</button>
+    </div>
+</div>
+
+<script>
+function fadeOut(element, callback) {
+    element.style.opacity = 1;
+    let fadeEffect = setInterval(() => {
+        if (!element.style.opacity) element.style.opacity = 1;
+        if (element.style.opacity > 0) {
+            element.style.opacity -= 0.05;
+        } else {
+            clearInterval(fadeEffect);
+            if (callback) callback();
+        }
+    }, 20);
+}
+
+function saveAndExit() {
+    const container = document.getElementById('exitContainer');
+    fadeOut(container, () => {
+        alert("✔ تم حفظ البيانات والخروج من البرنامج.");
+        // هنا يمكنك توجيه المستخدم لأي صفحة خروج أو أغلاق التطبيق في Electron مثلاً
+        // window.close(); // في حال تشغيله كنافذة مستقلة
+    });
+}
+
+function goBack() {
+    const container = document.getElementById('exitContainer');
+    fadeOut(container, () => {
+        window.location.href = "INDEX.html"; // الرجوع للصفحة الرئيسية
+    });
+}
+</script>
+
+</body>
+</html>

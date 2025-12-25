@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>إدارة المهام</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Cairo', Arial, sans-serif;
+    background: #D35400;
+    text-align: center;
+}
+
+/* ================= الإطار العلوي ================= */
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 18px 0;
+}
+
+.header-inner {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header h1 {
+    color: white;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.header img {
+    width: 120px;
+}
+
+/* ================= المحتوى ================= */
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* يجعل الأعمدة مستقلة عن الصورة */
+    gap: 60px;               /* المسافة بين الأعمدة والصورة */
+    padding: 30px;
+    flex-wrap: wrap;
+}
+
+/* ================= الأعمدة ================= */
+.column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* توزيع الأزرار عموديًا بالتساوي */
+    gap: 20px;                     /* تباعد الأزرار عموديًا */
+    min-width: 220px;
+    max-width: 250px;
+}
+
+/* ================= الأزرار ================= */
+.btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
+/* ألوان الأزرار */
+.b1 { background: #1E90FF; }
+.b2 { background: #28a745; }
+.b3 { background: #FF4500; }
+.b4 { background: #8A2BE2; }
+.b5 { background: #FFD700; color: black; }
+.b6 { background: #00CED1; }
+
+/* ================= الصورة الوسطى ================= */
+.center-image {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.center-image img {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 10px 22px rgba(0,0,0,0.35);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.center-image img:hover {
+    transform: scale(1.08);
+    box-shadow: 0 16px 32px rgba(0,0,0,0.45);
+}
+
+/* ================= زر الخروج ================= */
+.exit-btn {
+    background: red;
+    color: white;
+    padding: 8px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    display: inline-block; /* يجعل عرضه حسب المحتوى */
+    margin: 20px auto;     /* يظل في الوسط */
+}
+
+/* ================= Responsive ================= */
+@media (max-width: 900px) {
+    .content {
+        flex-direction: column;
+        align-items: center;
+        gap: 25px; /* المسافة الرأسية بين الأعمدة والصورة */
+    }
+
+    .column {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .center-image img {
+        max-width: 90%;
+        height: auto;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <div class="header-inner">
+        <h1>إدارة المهام</h1>
+        <img src="images/ITP10.PNG" alt="Logo">
+    </div>
+</div>
+
+<div class="content">
+    <!-- العمود الأيسر -->
+    <div class="column">
+        <button class="btn b1">الأهداف و النشاطات</button>
+        <button class="btn b2" onclick="window.location.href='Confirmation.html'">محاضر التثبيت</button>
+        <button class="btn b3">بيانات المؤسسات</button>
+    </div>
+
+    <!-- الصورة الوسطى -->
+    <div class="center-image">
+        <img src="images/telechargement.jpeg" alt="صورة">
+    </div>
+
+    <!-- العمود الأيمن -->
+    <div class="column">
+        <button class="btn b4">معطيات الدخول</button>
+        <button class="btn b5">وضعية الأساتذة</button>
+        <button class="btn b6">جدول الكفاءات</button>
+    </div>
+</div>
+
+<button class="btn exit-btn" onclick="exitApp()">خروج</button>
+
+<script>
+function exitApp() {
+    if (confirm("هل تريد العودة للصفحة السابقة؟")) {
+        history.back();
+    }
+}
+</script>
+
+</body>
+</html>

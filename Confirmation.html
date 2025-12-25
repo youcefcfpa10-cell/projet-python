@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>محاضر التثبيت</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700&display=swap" rel="stylesheet">
+<style>
+body { margin:0; font-family:'Cairo',sans-serif; background:#D35400; text-align:center; }
+.header { display:flex; justify-content:center; align-items:center; gap:20px; padding:20px 0; }
+.header h1 { color:white; font-size:32px; font-weight:700; }
+.header img { width:120px; }
+.content { display:flex; justify-content:center; align-items:flex-start; gap:30px; padding:20px; }
+.column { display:flex; flex-direction:column; justify-content:space-between; height:300px; }
+.btn { width:300px; padding:14px; font-size:16px; font-weight:bold; color:white; border:none; border-radius:8px; cursor:pointer; transition:all 0.3s ease; box-shadow:0 4px 10px rgba(0,0,0,0.25); }
+.btn:hover { transform:scale(1.05); filter:brightness(1.1); }
+.b1 { background:#1E90FF; }
+.b2 { background:#28a745; }
+.b_exit { background:red; }
+.center-image img { width:600px; height:300px; object-fit:cover; border-radius:16px; box-shadow:0 10px 22px rgba(0,0,0,0.35); transition:transform 0.5s ease, box-shadow 0.5s ease; }
+.center-image img:hover { transform:scale(1.03); box-shadow:0 14px 28px rgba(0,0,0,0.45); }
+</style>
+<script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+<script>
+new QWebChannel(qt.webChannelTransport, function(channel){
+    window.bridge = channel.objects.bridge;
+});
+function openPFP(){ if(window.bridge) bridge.open_pfp(); }
+function openAssistant(){ if(window.bridge) bridge.open_assistant(); }
+function goBack(){ if(window.bridge) bridge.go_back(); }
+</script>
+</head>
+<body>
+<div class="header">
+<h1>محاضر التثبيت</h1>
+<img src="images/ITP10.PNG" alt="Logo">
+</div>
+<div class="content">
+<div class="center-image">
+<img src="images/Confirmation1.jpeg" alt="صورة">
+</div>
+<div class="column">
+<button class="btn b1" onclick="openPFP()">محضر تثبيت أستاذ التكوين المهني PFP</button>
+<button class="btn b2" onclick="openAssistant()">محضر تثبيت مساعد التكوين</button>
+<button class="btn b_exit" onclick="goBack()">العودة للقائمة الرئيسية</button>
+</div>
+</div>
+</body>
+</html>
